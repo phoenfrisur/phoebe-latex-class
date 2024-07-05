@@ -1,0 +1,494 @@
+% !TeX program = lualatex
+
+\documentclass[language=english]{phoebe}
+
+\title{Phoebe's Official LaTeX Template \& Style Guide}
+\author{Christoph Otte, Fabian Scheuermann}
+\date{\today}
+\email{phoebe@uni-heidelberg.de}
+\keywords{Phoebe, LaTeX, Template}
+\abstract{This document is part of the official LaTeX template for Phoebe articles. It provides our authors with rules and guidelines for setting up the layout of their article's manuscript.}
+
+% load your own preamble
+\usepackage{preamble}
+
+% load file with bibliography
+\addbibresource{references.bib}
+
+\begin{document}
+
+% ---------------------------------------
+% Front matter
+% ---------------------------------------
+
+\maketitle
+
+% ---------------------------------------
+% Main body of the article
+% ---------------------------------------
+
+\section{General Instructions}
+
+% If you are completely new to LaTeX you may first have a look at Overleaf's documentation \citep{overleaf-doc}.
+In case you are completely new to LaTeX: A great resource for start learning LaTeX which has also many useful tutorials and nice tips even for advanced users is Overleaf's documentation. You will find an online version at \url{https://www.overleaf.com/learn}.
+
+\subsection{Getting started}
+
+Every article project constists of several files:
+\begin{enumerate}
+\item \lstinline{article.tex} --- The main file where you put your article's content. 
+\item \lstinline{phoebe.cls} --- The LaTeX class must always be included.
+\item \lstinline{references.bib} --- The file where you manage your bibliography.
+\item \lstinline{preamble.sty} --- An empty file where you may include additional packages and define custom commands.
+\item \lstinline{asset/} --- A folder where you store all your images.
+\item \lstinline{fonts/} --- A necessary folder for all needed fonts.
+\end{enumerate}
+
+\noindent Please use LuaLaTeX to compile your document. A minimal working example is given below.
+
+\begin{lstlisting}
+% article.tex
+
+\documentclass[language=english]{phoebe}
+
+% define some variables
+\title{My Article}
+\author{Jane Doe}
+\date{\today}
+\email{phoebe@uni-heidelberg.de}
+\keywords{Phoebe, LaTeX, Template}
+\abstract{Your abstract}
+
+ % load file with bibliography
+\addbibresource{references.bib}
+
+\begin{document}
+
+\maketitle
+
+% your text goes here.
+
+\begingroup
+\RaggedRight
+\printbibliography
+\endgroup
+
+\end{document}
+\end{lstlisting}
+
+\noindent You may find a template for \lstinline{references.bib} in Sec.~\ref{sec:bibliography}.
+
+\subsection{Article Length}
+
+Your article should be 2--5 pages long including footnotes, captions and bibliography. If you need more space you might want to consider splitting up the content and submit two shorter articles.
+
+\subsection{Abstract}
+
+Every article needs a short abstract of about 250 words to provide readers with a short summary of the content.
+
+\subsection{Additional LaTeX Packages}
+
+The class covers only a couple of features. If you need more packages, simply add them to the preamble. Never modify the class file. In case of compilation errors please contact \href{mailto:phoebe@uni-heidelberg.de}{phoebe@uni-heidelberg.de}.
+
+\section{Typography}
+
+\subsection{Punctuation}
+
+\subsection{New Paragraphs}
+
+If you want to start a new paragraph, you could either use the \TeX\ command \lstinline[language={}]|\par| or leave a blank line (this has the same effect). The commonly used \lstinline|\\| has a different effect, depending on the environment and only starts a new line. It should therefore be avoided.
+
+\subsection{Headings}
+
+Phoebe only uses sections and subsections.
+
+\subsection{Hyphen and Dash}
+
+A hyphen (single \lstinline|-|) is used to combine words (e.g.~low-density). The en-dash (two \lstinline|--|) is slightly larger and is used to indicate ranges (e.g.~this month we publish 2--5 articles). The en-dash is identical in length to the minus sign. When in math mode, LaTeX will automatically use a minus sign when a single \lstinline|-| is used. em-dashes (\lstinline|---|) should not be used in the journal.
+
+LaTeX assumes that a period marks the end of a sentence and as such puts a bit of extra space after it. This is wrong if the period is used in an abbreviation, e.g.\ \enquote{i.e.} To avoid this, place a space (\lstinline|e.g.\ |) after the period. In the previous example, the abbreviation period also marks the end of the sentence. In such case only one period is required.
+
+\subsection{Quotation Marks}
+The typography of quotation marks usually vary from country to country. However, the package \lstinline{csquotes} facilitates 
+
+\begin{lstlisting}
+The quick brown fox \enquote{Harvey} jumps over the lazy dog \enquote{Bruno}.
+\end{lstlisting}
+Depending on the language you chose in the class options at the very beginning, \lstinline{csquotes} will fill in their correct form used in the respective country: 
+\begin{quote}
+The quick brown fox \enquote{Harvey} jumps over the lazy dog \enquote{Bruno}.
+\end{quote}
+
+\subsection{Units}
+
+Variables are set in italics (this happens automatically in math mode), however units are always roman (upright). They should be separated by a non-breaking space. For reciprocal units, use a superscript, e.g.\ $\si{\cm\per\s}$. Use either SI or cgs units.
+
+Please make use of the \lstinline{siunitx} package (already loaded with this class) as it takes care of the aforementioned rules.
+\begin{lstlisting}
+R = \SI{8,3145}{\joule\per\mole\per\kelvin}
+\end{lstlisting}
+\begin{equation}
+R= \SI{8,3145}{\joule\per\mole\per\kelvin}
+\end{equation}
+If you need a unit that is not already defined, you can define your own units like so\footnote{You might want to put those type of commands into \lstinline{preamble.sty}.}
+\begin{lstlisting}
+\DeclareSIUnit\parsec{pc}
+\end{lstlisting}
+The axis of plots must have the according unit. This should be written as $x\,/\,\si{\cm}$. Note that commonly found notation $x\,[\si{\cm}]$ is not acceptable. Square brackets denote the unit of a quantity (just like value is denoted by curly brackets), i.e.\ $x=\{x\}[x]$. Take the example $x=\SI{12}{\cm}$, i.e.~$[x]=\si{\cm}$. For more details, see section 7 of the \href{https://www.nist.gov/pml/special-publication-811/nist-guide-si-chapter-7-rules-and-style-conventions-expressing-values}{NIST Guide to the SI}.
+
+\subsection{URLs and Hyperlinks}
+
+Please use \lstinline{\url} for writing blank URLs, e.g.\ \url{https://phoebe.pubpub.org}, and \lstinline{\href} if you want to write a description instead, e.g.\ \href{https://phoebe.pubpub.org}{Phoebe}. 
+
+\begin{lstlisting}
+\url{phoebe.pubpub.org}
+\href{phoebe.pubpub.org}{Phoebe}
+\end{lstlisting}
+Keep in mind that URLs without \lstinline{https://} won't usually work.
+
+Sections, equations, figures and tables can be referenced by using \lstinline{label} and \lstinline{ref} commands.
+
+\begin{lstlisting}
+\section{Methods}
+\label{sec:methods}
+
+See \ref{sec:methods} for the methods.
+\end{lstlisting}
+The value inside \lstinline{label} is completely arbitrary, however, there are some conventions you might want to follow:
+
+\begin{table}
+	\centering
+    \caption{Conventions for labelling objects in \LaTeX.}
+	\begin{tabular}{ll}
+		\toprule
+		Convention & Object \\
+		\midrule
+		\lstinline|sec| & Section \\
+		\lstinline|ssec| & Subsection \\
+		\lstinline|eq| & Equation \\
+		\lstinline|fig| & Figure \\
+		\lstinline|tab| & Table \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{Math}
+
+\subsection{Equations}
+
+\begin{lstlisting}
+\begin{equation}
+\int_{-\infty}^{+\infty}e^{-x^2}\mathrm{d}x=\sqrt{\pi}
+\end{equation}
+\end{lstlisting}
+
+\begin{equation}
+\int_{-\infty}^{+\infty}e^{-x^2}\mathrm{d}x=\sqrt{\pi}
+\end{equation}
+If you like to show a short calculation with some steps in between, you may want to align these equations for better readability:
+
+\begin{lstlisting}
+\begin{align*}
+\int_a^b\sin(x)\mathrm{d}x &= -\frac{1}{2}\left[e^{ib}-e^{ia}-\left(e^{-ib}-e^{-ia}\right)\right] \\
+&= \frac{e^{ia}+e^{-ia}}{2}-\frac{e^{ib}+e^{-ib}}{2} \\
+&= \cos(a)-\cos(b)
+\end{align*}
+\end{lstlisting}
+
+\begin{align*}
+\int_a^b\sin(x)\mathrm{d}x &= -\frac{1}{2}\left[e^{ib}-e^{ia}-\left(e^{-ib}-e^{-ia}\right)\right] \\
+&= \frac{e^{ia}+e^{-ia}}{2} - \frac{e^{ib}+e^{-ib}}{2} \\
+&= \cos(a) - \cos(b)
+% \symbfit{B}(P) &= \frac{\mu_0}{4\pi}\int\frac{\symbfit{I}\times \hat{r}'}{r'^2}\mathrm{d}l \\ &= \frac{\mu_0}{4\pi}I\int\frac{\mathrm{d}\symbfit{l}\times\hat{r}'}{\hat{r}'^2}
+\end{align*}
+Equations should always be punctuated whenever they appear at the end of a sentence.
+
+\subsection{Differentials}
+
+Differentials are always set upright:
+
+\begin{lstlisting}
+\frac{\mathrm{d}f(x)}{\mathrm{d}x}
+\end{lstlisting}
+
+\begin{equation}
+\frac{\mathrm{d}f(x)}{\mathrm{d}x}
+\end{equation}
+
+\subsection{Vectors}
+
+Vectors are set in bold-italic, please don't use any arrows:
+
+\begin{lstlisting}
+\begin{equation}
+    \nabla\times\symbfit{E} = -\frac{\partial \symbfit{B}}{\partial t}
+\end{equation}
+\end{lstlisting}
+
+\begin{equation}
+    \nabla\times\symbfit{E} = -\frac{\partial \symbfit{B}}{\partial t}
+\end{equation}
+
+\subsection{Multi-letter function names}
+
+\begin{lstlisting}
+\begin{equation}
+    \log e^x = x
+\end{equation}
+\end{lstlisting}
+
+\begin{equation}
+    \log e^x = x
+\end{equation}
+If you want to define new function names you may want to add
+
+\begin{lstlisting}
+\DeclareMathOperator{\MyNewFunction}{MNF}
+\end{lstlisting}
+to the preamble of your document.
+
+\subsection{Definition, Theorem, Proof}
+
+\begin{lstlisting}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\begin{definition}
+Let $f:\mathbb{R}\longrightarrow\mathbb{R}$ be a function.
+\end{definition}
+
+\begin{theorem}
+$f$ is a function.
+\end{theorem}
+
+\begin{proof}
+You get it, right?    
+\end{proof}
+\end{lstlisting}
+
+\begin{definition}
+Let $f:\mathbb{R}\longrightarrow\mathbb{R}$ be a function.
+\end{definition}
+
+\begin{theorem}
+$f$ is a function.
+\end{theorem}
+
+\begin{proof}
+You get it, right?    
+\end{proof}
+
+\subsection{Tensors and Indices}
+
+\subsection{Cases}
+
+\begin{lstlisting}
+f(n) = \begin{cases}
+  n/2  & n \text{ is even} \\
+  3n+1 & n \text{ is odd}
+\end{cases}
+\end{lstlisting}
+
+\begin{equation}
+f(n) = \begin{cases}
+  n/2  & n \text{ is even} \\
+  3n+1 & n \text{ is odd}
+\end{cases}\end{equation}
+
+\subsection{Matrices}
+
+\begin{lstlisting}
+\begin{pmatrix}
+  0 & 1 \\
+  1 & 0
+\end{pmatrix}
+\end{lstlisting}
+
+\begin{equation}
+\begin{pmatrix}
+  0 & 1 \\
+  1 & 0
+\end{pmatrix}
+\end{equation}
+
+\section{Figures and Tables}
+
+We follow the convention that tables are placed at the top of a page while figures appear at the bottom.
+
+\begin{lstlisting}
+\begin{table}[t]
+	\begin{center}
+		\caption{Your caption goes here.}
+		\setlength\defaultaddspace{0.5em}
+		\begin{tabularx}{\columnwidth}{ll}
+			\toprule
+			Column 1 & Column 2 \\
+			\midrule
+			A & 1 \\
+			B & 2 \\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+\end{table}
+\end{lstlisting}
+
+\begin{table}[t]
+	\begin{center}
+		\caption{Some Shakespeare's plays. }
+		\setlength\defaultaddspace{0.5em}
+		\begin{tabularx}{\columnwidth}{lXr}
+			\toprule
+			Title & Type & Year \\
+			\midrule
+			A Midsummer Night's Dream & Comedy & 1594 \\
+			Romeo and Juliet & Tragedy & 1595 \\
+			Much Ado About Nothing & Comedy & 1599 \\
+			Hamlet & Tragedy & 1601 \\
+			Henry VIII & History & 1613 \\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+\end{table}
+
+\begin{table*}[t]
+	\centering
+	\caption{Some Bond Films with Sean Connery.}
+	\label{tab:bond}
+	\setlength\defaultaddspace{0.5em}
+	\begin{tabularx}{\textwidth}{llllll}
+		\toprule
+		Film Title & Year & Villain & Bond Girl & Key Car \\
+		\midrule
+		Dr No  & 1962 & Doctor No & Ursula Andress $\cdot$ \textit{Honey Ryder} & Sunbeam Alpine \\
+		From Russia With Love  & 1963 & Red Grant & Daniela Bianchi $\cdot$ \textit{Tatiana Romanova} & Bentley Mark IV \\
+		Goldfinger  & 1964 & Goldfinger & Honor Blackman $\cdot$ \textit{Pussy Galore} & Aston Martin DB5 \\
+		Thunderball  & 1965 & Emilio Largo & Claudine Auger $\cdot$ \textit{Domino} & Aston Martin DB5 \\
+		You Only Live Twice  & 1967 & Blofeld & Akiko Wakabayashi $\cdot$ \textit{Aki} & Toyota 2000 GT \\
+		\bottomrule
+	\end{tabularx}
+\end{table*}
+
+
+\section{Bibliography}
+\label{sec:bibliography}
+
+We use \lstinline{biblatex} with \lstinline{biber} as the backend for the references. The file with the entries should be loaded before the main document starts with \lstinline|\addbibresource{}|.
+
+There are two main citation commands: for in-line citations use \lstinline|\citet{}| and for citations in parantheses use \lstinline|\citep{}|, see Tab~\ref{tab:citation-commands}.
+
+\begin{lstlisting}
+See~\citet{article,unpublished}.
+See~\citet{article,phdthesis}.
+See~\citep{article}.
+\end{lstlisting}
+
+\begin{quote}
+\noindent See~\citet{article,unpublished}.
+
+\noindent See~\citet{article,phdthesis}.
+
+\noindent See~\citep{article}.
+\end{quote}
+
+\begin{table}[t]
+	\begin{center}
+		\caption{Some citation commands. Taken from \citet{overleaf2309}.}
+		\label{tab:citation-commands} % \label after \caption!!
+		\setlength\defaultaddspace{0.5em}
+		\begin{tabularx}{\columnwidth}{lX}
+			\toprule
+			Command & Description \\
+			\midrule
+			\lstinline{\\citet\{\}} & Textual citation \\
+			\lstinline{\\citep\{\}} & Parenthetical citation \\
+			\lstinline{\\citet*\{\}} & Same as \lstinline{\\citet} but if there are several authors, all names are printed \\
+			\lstinline{\\citep*\{\}} & The same as \lstinline{\\citep} but if there are several authors, all names are printed \\
+			\lstinline{\\citeauthor\{\}} & Prints only the name of the authors(s) \\
+			\lstinline{\\citeyear\{\}} & Prints only the year of the publication \\
+
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+\end{table}
+
+To manage your references you may want to include a separate file. We give here a template which might work for most cases.
+
+If you want to refer to lecture notes, please use \lstinline{misc}.
+
+\begin{lstlisting}
+% references.bib
+
+@article{article,
+  author   = "{Doe}, Jane and {Doe}, John",
+  title    = "My Wonderful Phoebe Article",
+  journal  = "Phoebe",
+  year     = 2023,
+  volume   = "1",
+  number   = "1",
+  pages    = "1-5",
+}
+
+@book{book,
+  author = {{Doe}, John},
+  title = {My New Bestseller},
+  year = {2023},
+  publisher = {University Publishing}
+}
+
+@online{online,
+  label = {Phoebe},
+  title = {My First Online Article},
+  url = {https://phoebe.pubpub.org},
+  year = {2023},
+  urldate = {2023-06-02}
+}
+
+@mastersthesis{mastersthesis,
+  author  = "{Doe}, Jane",
+  title   = "My Master Thesis",
+  school  = "My University",
+  year    = 2020,
+  address = "My Home Town",
+  month   = sep
+}
+
+@phdthesis{phdthesis,
+  author  = "{Doe}, John",
+  title   = "My Doctoral Thesis",
+  school  = "My University",
+  address = "My Home Town",
+  year    = 2023,
+  month   = jun
+}
+
+@misc{misc,
+  title        = "Some Miscellaneous Stuff",
+  author       = "{Phoebe}",
+  howpublished = "\url{https://phoebe.pubpub.org}",
+  year         = 2023,
+  note         = "Accessed: 2023-07-06"
+}
+
+@unpublished{unpublished,
+  author = "{Doe}, Jane",
+  title  = "Some Yet To Be Published Stuff",
+  year   = 2023
+}
+\end{lstlisting}
+
+%\begin{lstlisting}
+%\begingroup
+%\RaggedRight
+%\printbibliography
+%\endgroup
+%\end{lstlisting}
+
+\begingroup
+\RaggedRight
+\printbibliography
+\endgroup
+
+\end{document}

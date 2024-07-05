@@ -1,0 +1,34 @@
+% !TeX program = lualatex
+
+\documentclass[language=english]{phoebe}
+% choose `language=ngerman` for german-written articles
+
+% define some variables
+\title{My Article}
+\author{Jane Doe}
+\date{\today}
+\email{phoebe@uni-heidelberg.de}
+\keywords{Phoebe, LaTeX, Template}
+\abstract{Your abstract goes here.}
+
+% load some custom packages
+\usepackage{preamble}
+
+ % load file with bibliography
+\addbibresource{references.bib}
+
+\begin{document}
+
+\maketitle
+
+\section{My First Section}
+
+Your text goes here. See~\citet{article}.
+
+% references
+\begingroup
+\RaggedRight
+\printbibliography
+\endgroup
+
+\end{document}
